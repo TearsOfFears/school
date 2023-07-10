@@ -10,19 +10,20 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
-import { JwtGuard } from '@school/shared';
-import { LoginUserDto, LogoutUserDto, RegisterUserDto } from './dto/user.dto';
+import { AccountLogin, AccountRegister, JwtGuard } from '@school/shared';
+import { LogoutUserDto, RegisterUserDto } from './dto/user.dto';
 import { IRefreshUser } from './interfaces/tokens.interface';
+import { RMQRoute, RMQValidate } from 'nestjs-rmq';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  @Post('register')
+  @RMQValidate()
+  @RMQRoute(AccountRegister.topic)
   async register(
-    @Body() dtoIn: RegisterUserDto,
+    @Body() dtoIn: AccountRegister.Request,
     @Res({ passthrough: true }) response: Response
-  ) {
+  ): Promise<AccountRegister.Response> {
     const user = await this.authService.create(dtoIn);
     response.cookie('refreshToken', user.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -30,20 +31,17 @@ export class AuthController {
       sameSite: 'none',
       secure: true,
     });
-    delete user.refreshToken;
     return user;
   }
-  //: Promise<RegisterUserDto>
-  @HttpCode(200)
-  @Post('login')
+  @RMQValidate()
+  @RMQRoute(AccountLogin.topic)
   async login(
-    @Body() dtoIn: LoginUserDto,
+    @Body() dtoIn: AccountLogin.Request,
     @Res({ passthrough: true }) response: Response
-  ) {
+  ): Promise<AccountLogin.Response> {
     await this.authService.validateUser(dtoIn.email, dtoIn.password);
     const user = await this.authService.login(dtoIn.email);
     response.cookie('refreshToken', user.refreshToken, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       sameSite: 'none',
       secure: true,
@@ -74,12 +72,10 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response
   ) {
-    console.log('request.cookies', request);
     const { user, tokens }: IRefreshUser = await this.authService.refreshTokens(
       request.cookies.refreshToken
     );
-    response.cookie('refreshToken', user.refreshToken, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+    response.cookie('refreshToken', tokens.refreshToken, {
       httpOnly: true,
       sameSite: 'none',
       secure: true,

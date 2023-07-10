@@ -9,19 +9,16 @@ import {
 
 export class RegisterUserDto {
   @IsString()
-  name?: string;
+  firstName?: string;
+  @IsString()
+  lastName?: string;
   @IsEmail()
   email: string;
-  @IsUUID()
-  universityId: string;
   @IsString()
   password?: string;
   @IsString()
   @IsOptional()
   passwordHash?: string;
-  @IsNumber()
-  @IsOptional()
-  chatId?: number | null;
 }
 export class PageInfo {
   @IsNumber()

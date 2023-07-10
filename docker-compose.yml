@@ -16,6 +16,12 @@ services:
     expose:
       - 5416
     restart: always
+  rmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
   pgadmin:
     container_name: pg_admin
     image: dpage/pgadmin4

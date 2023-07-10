@@ -4,8 +4,8 @@ import {
   TypeOrmModuleAsyncOptions,
   TypeOrmModuleOptions,
 } from '@nestjs/typeorm';
-import { join } from 'path';
-import { User } from '../entities/user.entity';
+
+import { User } from '../user/entity/user.entity';
 const postgresConfig = (
   configService: ConfigService
 ): PostgresConnectionOptions => {

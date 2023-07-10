@@ -14,8 +14,6 @@ async function bootstrap() {
   });
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
   app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -23,8 +21,10 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     })
   );
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Account 🚀 application is running on: http://localhost:${port}/${globalPrefix}`
   );
 }
 

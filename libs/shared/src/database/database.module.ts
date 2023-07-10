@@ -6,12 +6,6 @@ import { UserRepository } from './repositories/user.repository';
 import { User } from './entities/user.entity';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: 'envs/.database.env' }),
-    TypeOrmModule.forRootAsync(typeOrmConfig),
-    TypeOrmModule.forFeature([User]),
-  ],
-  providers: [UserRepository],
-  exports: [UserRepository],
+  imports: [],
 })
 export class DatabaseModule {}

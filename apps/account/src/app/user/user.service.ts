@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { User, UserRepository } from '@school/shared';
 import { DeepPartial, FindOneOptions } from 'typeorm';
+import { UserRepository } from './repositories/user.repository';
+import { User } from './entity/user.entity';
 
 @Injectable()
 export class UserService {

@@ -1,16 +1,16 @@
-export * from './database/database.module';
+// export * from './database/database.module';
 
 // modules
 // export * from './modules/shared.module';
 // export * from './modules/postgresdb.module';
 // export * from './modules/redis.module';
+
 // services
 // export * from './services/shared.service';
 // export * from './services/redis-cache.service';
-// guards
-// export * from './guards/auth.guard';
+
 // entities
-export * from './database/entities/user.entity';
+// export * from './database/entities/user.entity';
 // export * from './entities/friend-request.entity';
 // export * from './entities/conversation.entity';
 // export * from './entities/message.entity';
@@ -19,6 +19,7 @@ export * from './database/entities/user.entity';
 // export * from './interfaces/user-jwt.interface';
 // export * from './interfaces/shared.service.interface';
 // interfaces - repository
+export * from './interfaces/lib/user.interface';
 // export * from './interfaces/users.repository.interface';
 // export * from './interfaces/friend-requests.repository.interface';
 // export * from './interfaces/conversations.repository.interface';
@@ -26,12 +27,23 @@ export * from './database/entities/user.entity';
 // base repository
 // export * from './repositories/base/base.abstract.repository';
 // export * from './repositories/base/base.interface.repository';
+
 // repositories
-export * from './database/repositories/user.repository';
+// export * from './database/repositories/user.repository';
 // export * from './repositories/friend-requests.repository';
 // export * from './repositories/conversations.repository';
 // export * from './repositories/messages.repository';
-// // interceptors
+
+// interceptors
 // export * from './interceptors/user.interceptor';
+
+// decorators
+export * from './decorators/user.decorator';
+
+export * from './strategy/jwt.strategy';
 // guards
 export * from './guards/jwt.guard';
+
+// contracts
+export * from './contracts/account/account.login';
+export * from './contracts/account/account.register';

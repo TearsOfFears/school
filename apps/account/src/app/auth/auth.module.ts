@@ -5,7 +5,8 @@ import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
-import { getJwtConfig } from './configs/jwt.config';
+import { getJwtConfig } from '../configs/jwt.config';
+
 @Module({
   imports: [
     UserModule,
