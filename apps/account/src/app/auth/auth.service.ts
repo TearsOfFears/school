@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { IUserInterface } from '@school/shared';
+import { IUser } from '@school/shared';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
@@ -57,7 +57,7 @@ export class AuthService {
     await this.updateRefreshToken(user.userId, tokens.refreshToken);
     return { user, tokens };
   }
-  async getUserByEmail(email: string): Promise<IUserInterface> {
+  async getUserByEmail(email: string): Promise<IUser> {
     const user = await this.userService.getUserByEmail(email);
     if (!user) {
       throw new HttpException(
@@ -70,7 +70,7 @@ export class AuthService {
   async validateUser(
     email: string,
     password: string
-  ): Promise<Pick<IUserInterface, 'email'>> {
+  ): Promise<Pick<IUser, 'email'>> {
     const user = await this.userService.isUserExistByEmail(email, {
       select: ['passwordHash'],
     });
@@ -106,7 +106,7 @@ export class AuthService {
   async updateRefreshToken(
     userId: string,
     refreshToken: string
-  ): Promise<IUserInterface> {
+  ): Promise<IUser> {
     const hashedRefreshToken = this.hashData(refreshToken);
     return await this.userService.updateUser(userId, {
       refreshToken: hashedRefreshToken,

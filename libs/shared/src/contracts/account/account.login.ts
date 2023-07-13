@@ -11,7 +11,8 @@ export namespace AccountLogin {
     password: string;
   }
 
-  export class Response extends User {
+  export class Response {
+    userUpdated: User;
     accessToken: string;
   }
 }

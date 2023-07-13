@@ -1,10 +1,10 @@
-import { IUserInterface } from '@school/shared';
+import { IUser } from '@school/shared';
 
 export interface ITokens {
   accessToken: string;
   refreshToken: string;
 }
 export interface IRefreshUser {
-  user: IUserInterface;
+  user: IUser;
   tokens: ITokens;
 }

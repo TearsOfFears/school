@@ -1,13 +1,15 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserRole } from '@school/shared';
+import { ICourse, IUser, PurchaseState, UserRole } from '@school/shared';
+import { Course } from './course.entity';
 
 @Entity('user')
-export class User {
+export class User implements IUser {
   @PrimaryGeneratedColumn('uuid')
   userId: string;
 
@@ -29,6 +31,9 @@ export class User {
   @Column({ nullable: true })
   restoreLink: string;
 
+  @OneToMany(() => Course, (course) => course.user)
+  courses: ICourse[];
+
   @Column({
     type: 'enum',
     enum: UserRole,
@@ -45,4 +50,26 @@ export class User {
 
   @CreateDateColumn()
   updatedAt: Date;
+
+  public setCourseStatus(courseId: string, state: PurchaseState) {
+    const exist = this.courses.find((c) => c.courseId === courseId);
+    if (!exist) {
+      this.courses.push({
+        courseId,
+        purchaseState: state,
+      });
+      return this;
+    }
+    if (state === PurchaseState.Canceled) {
+      this.courses = this.courses.filter((c) => c.courseId !== courseId);
+      return this;
+    }
+    this.courses = this.courses.map((c) => {
+      if (c.courseId === courseId) {
+        c.purchaseState = state;
+        return c;
+      }
+      return c;
+    });
+  }
 }

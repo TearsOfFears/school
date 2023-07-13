@@ -11,43 +11,30 @@ import {
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
 import { AccountLogin, AccountRegister, JwtGuard } from '@school/shared';
-import { LogoutUserDto, RegisterUserDto } from './dto/user.dto';
+import { LogoutUserDto } from './dto/user.dto';
 import { IRefreshUser } from './interfaces/tokens.interface';
 import { RMQRoute, RMQValidate } from 'nestjs-rmq';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @RMQValidate()
   @RMQRoute(AccountRegister.topic)
   async register(
-    @Body() dtoIn: AccountRegister.Request,
-    @Res({ passthrough: true }) response: Response
+    @Body() dtoIn: AccountRegister.Request
   ): Promise<AccountRegister.Response> {
     const user = await this.authService.create(dtoIn);
-    response.cookie('refreshToken', user.refreshToken, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-    });
     return user;
   }
   @RMQValidate()
   @RMQRoute(AccountLogin.topic)
   async login(
-    @Body() dtoIn: AccountLogin.Request,
-    @Res({ passthrough: true }) response: Response
+    @Body() dtoIn: AccountLogin.Request
   ): Promise<AccountLogin.Response> {
     await this.authService.validateUser(dtoIn.email, dtoIn.password);
     const user = await this.authService.login(dtoIn.email);
-    response.cookie('refreshToken', user.refreshToken, {
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-    });
     return {
-      ...user.userUpdated,
+      userUpdated: user.userUpdated,
       accessToken: user.accessToken,
     };
   }

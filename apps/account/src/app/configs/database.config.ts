@@ -6,6 +6,7 @@ import {
 } from '@nestjs/typeorm';
 
 import { User } from '../user/entity/user.entity';
+import { Course } from '../user/entity/course.entity';
 const postgresConfig = (
   configService: ConfigService
 ): PostgresConnectionOptions => {
@@ -16,7 +17,7 @@ const postgresConfig = (
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_DATABASE_NAME'),
-    entities: [User],
+    entities: [User, Course],
     logger: 'advanced-console',
     synchronize: true,
     logging: true,

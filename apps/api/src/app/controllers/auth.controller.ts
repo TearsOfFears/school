@@ -7,37 +7,72 @@ import {
   HttpCode,
   Param,
   Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
-import { AccountLogin, AccountRegister, JwtGuard } from '@school/shared';
-import { LogoutUserDto, RegisterUserDto } from './dto/user.dto';
-import { IRefreshUser } from './interfaces/tokens.interface';
-import { RMQRoute, RMQValidate } from 'nestjs-rmq';
+import { AccountLogin, AccountRegister } from '@school/shared';
+import { RMQService } from 'nestjs-rmq';
+import { RegisterDto } from '../dtos/register.dto';
+import { LoginDto } from '../dtos/login.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor() {}
+  constructor(private readonly rmqService: RMQService) {}
 
   @Post('register')
   async register(
-    @Body() dtoIn: AccountRegister.Request,
+    @Body() dtoIn: RegisterDto,
     @Res({ passthrough: true }) response: Response
-  ) {}
+  ) {
+    try {
+      return await this.rmqService.send<
+        AccountRegister.Request,
+        AccountRegister.Response
+      >(AccountRegister.topic, dtoIn);
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new UnauthorizedException(e.message);
+      }
+    }
+  }
 
   @Post('login')
   async login(
-    @Body() dtoIn: AccountLogin.Request,
-    @Res({ passthrough: true }) response: Response
-  ) {}
-  @HttpCode(200)
-  @Post('logout')
-  async logout(
-    @Body() dtoIn: LogoutUserDto,
+    @Body() dtoIn: LoginDto,
     @Res({ passthrough: true }) response: Response
   ) {
-    // await this.authService.logout(dtoIn.userId);
-    // response.clearCookie('refreshToken');
+    let user;
+    try {
+      user = await this.rmqService.send<
+        AccountLogin.Request,
+        AccountLogin.Response
+      >(AccountLogin.topic, dtoIn);
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new UnauthorizedException(e.message);
+      }
+    }
+    response.cookie('refreshToken', user.userUpdated.refreshToken, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
+    return {
+      ...user.userUpdated,
+      accessToken: user.accessToken,
+    };
   }
+
+  // @HttpCode(200)
+  // @Post('logout')
+  // async logout(
+  //   @Body() dtoIn
+  //   @Res({ passthrough: true }) response: Response
+  // ) {
+  //   // await this.authService.logout(dtoIn.userId);
+  //   // response.clearCookie('refreshToken');
+  // }
+
   @HttpCode(200)
   @Get('emailCheck/:email')
   async emailCheck(@Param('email') email: string) {

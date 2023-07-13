@@ -20,6 +20,8 @@
 // export * from './interfaces/shared.service.interface';
 // interfaces - repository
 export * from './interfaces/lib/user.interface';
+export * from './interfaces/lib/course.interface';
+
 // export * from './interfaces/users.repository.interface';
 // export * from './interfaces/friend-requests.repository.interface';
 // export * from './interfaces/conversations.repository.interface';
@@ -47,3 +49,13 @@ export * from './guards/jwt.guard';
 // contracts
 export * from './contracts/account/account.login';
 export * from './contracts/account/account.register';
+export * from './contracts/account/account.user-info';
+export * from './contracts/account/account.user-courses';
+export * from './contracts/account/account.change-profile';
+export * from './contracts/account/account.buy-course';
+export * from './contracts/account/account.check-payment';
+
+export * from './contracts/payment/payment.check';
+export * from './contracts/payment/payment.generate-link';
+
+export * from './contracts/course/course.generate-link';
