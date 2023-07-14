@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
-import { AccountLogin, AccountRegister, JwtGuard } from '@school/shared';
+import { AccountLogin, AccountRegister } from '@school/shared';
 import { LogoutUserDto } from './dto/user.dto';
 import { IRefreshUser } from './interfaces/tokens.interface';
 import { RMQRoute, RMQValidate } from 'nestjs-rmq';

@@ -1,4 +1,4 @@
-import { User } from '../entity/user.entity';
+import { UserEntity } from '@school/shared';
 import { RMQService } from 'nestjs-rmq';
 import { PurchaseState } from '@school/shared';
 import { BuyCourseSagaState } from './buy-course.state';
@@ -12,7 +12,7 @@ import {
 export class BuyCourseSaga {
   private state: BuyCourseSagaState;
   constructor(
-    public user: User,
+    public user: UserEntity,
     public courseId: string,
     public rmqService: RMQService
   ) {}
@@ -37,7 +37,6 @@ export class BuyCourseSaga {
     }
 
     this.state.setContext(this);
-
     this.user.setCourseStatus(courseId, state);
   }
 }

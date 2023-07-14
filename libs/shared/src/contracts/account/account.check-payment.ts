@@ -1,5 +1,5 @@
 import { IsUUID } from 'class-validator';
-import { PurchaseState } from '../../interfaces/lib/course.interface';
+import { PaymentStatus } from '../payment/payment.check';
 
 export namespace AccountCheckPayment {
   export const topic = 'account.check-payment.command';
@@ -12,6 +12,6 @@ export namespace AccountCheckPayment {
   }
 
   export class Response {
-    status: PurchaseState;
+    status: PaymentStatus;
   }
 }

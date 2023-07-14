@@ -1,6 +1,5 @@
-import { User } from '../entity/user.entity';
-import { RMQService } from 'nestjs-rmq';
-import { PurchaseState } from '@school/shared';
+import { UserEntity } from '@school/shared';
+import { PaymentStatus } from '@school/shared';
 import { BuyCourseSaga } from './buy-course.saga';
 
 export abstract class BuyCourseSagaState {
@@ -9,7 +8,10 @@ export abstract class BuyCourseSagaState {
   public setContext(saga: BuyCourseSaga) {
     this.saga = saga;
   }
-  public abstract pay(): Promise<{ paymentLink: string; user: User }>;
-  public abstract checkPayment(): Promise<{ user: User }>;
-  public abstract cancel(): Promise<{ user: User }>;
+  public abstract pay(): Promise<{ paymentLink: string; user: UserEntity }>;
+  public abstract checkPayment(): Promise<{
+    user: UserEntity;
+    status: PaymentStatus;
+  }>;
+  public abstract cancel(): Promise<{ user: UserEntity }>;
 }

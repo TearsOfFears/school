@@ -1,6 +1,11 @@
 import { IsUUID } from 'class-validator';
-import { ICourse } from '../../interfaces/lib/course.interface';
+import { ICourse, PurchaseState } from '../../interfaces/course.interface';
 
+export enum PaymentStatus {
+  Canceled = 'canceled',
+  Success = 'success',
+  Progress = 'progress',
+}
 export namespace PaymentCheck {
   export const topic = 'payment.check.query';
 
@@ -13,6 +18,6 @@ export namespace PaymentCheck {
   }
 
   export class Response {
-    status: 'canceled' | 'success' | 'progress';
+    status: PaymentStatus;
   }
 }

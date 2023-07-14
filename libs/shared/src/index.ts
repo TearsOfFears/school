@@ -1,8 +1,5 @@
-// export * from './database/database.module';
-
 // modules
 // export * from './modules/shared.module';
-// export * from './modules/postgresdb.module';
 // export * from './modules/redis.module';
 
 // services
@@ -10,7 +7,9 @@
 // export * from './services/redis-cache.service';
 
 // entities
-// export * from './database/entities/user.entity';
+export * from './entities/base/base.entity';
+export * from './entities/user.entity';
+export * from './entities/course.entity';
 // export * from './entities/friend-request.entity';
 // export * from './entities/conversation.entity';
 // export * from './entities/message.entity';
@@ -19,9 +18,9 @@
 // export * from './interfaces/user-jwt.interface';
 // export * from './interfaces/shared.service.interface';
 // interfaces - repository
-export * from './interfaces/lib/user.interface';
-export * from './interfaces/lib/course.interface';
-
+export * from './interfaces/user.interface';
+export * from './interfaces/course.interface';
+export * from './interfaces/events.interface';
 // export * from './interfaces/users.repository.interface';
 // export * from './interfaces/friend-requests.repository.interface';
 // export * from './interfaces/conversations.repository.interface';

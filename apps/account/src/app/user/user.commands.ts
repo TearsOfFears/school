@@ -1,12 +1,17 @@
 import { Body, Controller } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AccountChangeProfile } from '@school/shared';
-import { RMQRoute, RMQValidate } from 'nestjs-rmq';
+import { RMQRoute, RMQService, RMQValidate } from 'nestjs-rmq';
 import { AccountBuyCourse } from '@school/shared';
 import { AccountCheckPayment } from '@school/shared';
+import { UserEntity } from '@school/shared';
+import { BuyCourseSaga } from './sagas/buy-course.saga';
 @Controller()
 export class UserCommands {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly rmqService: RMQService
+  ) {}
 
   @RMQValidate()
   @RMQRoute(AccountChangeProfile.topic)
@@ -23,20 +28,28 @@ export class UserCommands {
   async buyCourse(
     @Body() { userId, courseId }: AccountBuyCourse.Request
   ): Promise<AccountBuyCourse.Response> {
-    // const user = await this.userService.updateUser(userId, dtoIn);
-    // return {
-    //   user,
-    // };
+    const existedUser = await this.userService.getUserById(userId);
+
+    const userEntity = new UserEntity(existedUser);
+    const saga = new BuyCourseSaga(userEntity, courseId, this.rmqService);
+    const { paymentLink, user } = await saga.getState().pay();
+    await this.userService.updateUserEmitter(user);
+    return {
+      paymentLink,
+    };
   }
   @RMQValidate()
   @RMQRoute(AccountCheckPayment.topic)
   async checkPayment(
     @Body() { userId, courseId }: AccountCheckPayment.Request
   ): Promise<AccountCheckPayment.Response> {
-    // const user = await this.userService.updateUser(userId, dtoIn);
-    // return {
-    //   user,
-    // };
+    const existedUser = await this.userService.getUserById(userId);
+
+    const userEntity = new UserEntity(existedUser);
+    const saga = new BuyCourseSaga(userEntity, courseId, this.rmqService);
+    const { user, status } = await saga.getState().checkPayment();
+    await this.userService.updateUserEmitter(user);
+    return { status };
   }
   // @RMQValidate()
   // @RMQRoute(AccountUserInfo.topic)

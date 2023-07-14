@@ -5,8 +5,7 @@ import {
   TypeOrmModuleOptions,
 } from '@nestjs/typeorm';
 
-import { User } from '../user/entity/user.entity';
-import { Course } from '../user/entity/course.entity';
+import { CourseEntity, UserEntity } from '@school/shared';
 const postgresConfig = (
   configService: ConfigService
 ): PostgresConnectionOptions => {
@@ -17,7 +16,7 @@ const postgresConfig = (
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_DATABASE_NAME'),
-    entities: [User, Course],
+    entities: [UserEntity, CourseEntity],
     logger: 'advanced-console',
     synchronize: true,
     logging: true,

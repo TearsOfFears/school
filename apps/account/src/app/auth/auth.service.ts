@@ -28,11 +28,7 @@ export class AuthService {
     const user = await this.userService.createUser(dtoIn);
     const tokens = await this.getTokens(user.userId, user.email);
     await this.updateRefreshToken(user.userId, tokens.refreshToken);
-    return {
-      ...user,
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken,
-    };
+    return user;
   }
   async refreshTokens(refreshToken: string): Promise<IRefreshUser> {
     if (!refreshToken) {

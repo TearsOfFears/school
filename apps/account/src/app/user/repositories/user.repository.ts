@@ -8,25 +8,25 @@ import {
   UpdateResult,
 } from 'typeorm';
 
-import { User } from '../entity/user.entity';
+import { UserEntity } from '@school/shared';
 
 @Injectable()
 export class UserRepository {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>
   ) {}
-  public async save(data: DeepPartial<User>): Promise<User> {
+  public async save(data: DeepPartial<UserEntity>): Promise<UserEntity> {
     return await this.userRepository.save(data);
   }
-  public async create(data: DeepPartial<User>): Promise<User> {
+  public async create(data: DeepPartial<UserEntity>): Promise<UserEntity> {
     return this.userRepository.save(data);
   }
 
   public async findOneById(
     userId: string,
-    filterCondition: FindOneOptions<User>
-  ): Promise<User | null> {
+    filterCondition: FindOneOptions<UserEntity>
+  ): Promise<UserEntity | null> {
     return await this.userRepository.findOne({
       where: { userId },
       ...filterCondition,
@@ -34,27 +34,29 @@ export class UserRepository {
   }
   public async findAndUpdate(
     userId: string,
-    data: DeepPartial<User>
+    data: DeepPartial<UserEntity>
   ): Promise<UpdateResult | null> {
     return await this.userRepository.update({ userId }, data);
   }
   public async findByCondition(
-    filterCondition: FindOneOptions<User>
-  ): Promise<User | null> {
+    filterCondition: FindOneOptions<UserEntity>
+  ): Promise<UserEntity | null> {
     return await this.userRepository.findOne(filterCondition);
   }
 
   public async findWithRelations(
-    relations: FindManyOptions<User>
-  ): Promise<User[]> {
+    relations: FindManyOptions<UserEntity>
+  ): Promise<UserEntity[]> {
     return await this.userRepository.find(relations);
   }
 
-  public async findAll(options?: FindManyOptions<User>): Promise<User[]> {
+  public async findAll(
+    options?: FindManyOptions<UserEntity>
+  ): Promise<UserEntity[]> {
     return await this.userRepository.find(options);
   }
 
-  public async remove(data: User): Promise<User> {
+  public async remove(data: UserEntity): Promise<UserEntity> {
     return await this.userRepository.remove(data);
   }
 }

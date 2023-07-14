@@ -1,5 +1,5 @@
 import { IsEmail, IsString } from 'class-validator';
-import { User } from '../../database/entities/user.entity';
+import { IUser } from '../../interfaces/user.interface';
 
 export namespace AccountLogin {
   export const topic = 'account.login.command';
@@ -12,7 +12,7 @@ export namespace AccountLogin {
   }
 
   export class Response {
-    userUpdated: User;
+    userUpdated: IUser;
     accessToken: string;
   }
 }

@@ -1,6 +1,5 @@
 import { IsEmail, IsOptional, IsString } from 'class-validator';
-import { User } from '../../database/entities/user.entity';
-
+import { UserEntity } from '../../entities/user.entity';
 export namespace AccountRegister {
   export const topic = 'account.register.command';
 
@@ -18,7 +17,5 @@ export namespace AccountRegister {
     passwordHash?: string;
   }
 
-  export class Response extends User {
-    accessToken: string;
-  }
+  export class Response extends UserEntity {}
 }

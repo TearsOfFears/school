@@ -2,15 +2,15 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserCommands } from './user.commands';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entity/user.entity';
 import { UserRepository } from './repositories/user.repository';
 import { UserQueries } from './user.queries';
-import { Course } from './entity/course.entity';
+import { UserEntity, CourseEntity } from '@school/shared';
+import { UserEventEmitter } from './user.event-immiter';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Course])],
+  imports: [TypeOrmModule.forFeature([UserEntity, CourseEntity])],
   controllers: [UserCommands, UserQueries],
-  providers: [UserService, UserRepository],
-  exports: [UserService, UserRepository],
+  providers: [UserService, UserRepository, UserEventEmitter],
+  exports: [UserService, UserRepository, UserEventEmitter],
 })
 export class UserModule {}

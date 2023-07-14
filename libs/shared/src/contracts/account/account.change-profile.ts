@@ -1,5 +1,5 @@
 import { IsString, IsUUID } from 'class-validator';
-import { IUser } from '../../interfaces/lib/user.interface';
+import { IUser } from '../../interfaces/user.interface';
 
 export namespace AccountChangeProfile {
   export const topic = 'account.change-profile.command';

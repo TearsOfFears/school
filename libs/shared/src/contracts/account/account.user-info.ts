@@ -1,5 +1,5 @@
 import { IsUUID } from 'class-validator';
-import { IUser } from '../../interfaces/lib/user.interface';
+import { IUser } from '../../interfaces/user.interface';
 
 export namespace AccountUserInfo {
   export const topic = 'account.user-info.query';
