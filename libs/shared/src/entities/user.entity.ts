@@ -85,7 +85,8 @@ export class UserEntity extends BaseEntity implements IUser {
   public getCourseState(courseId: string): PurchaseState {
     console.log('this.courses', typeof this.courses);
     return (
-      this.courses.find((c) => c.courseId === courseId)?.purchaseState ??
+      (this.courses &&
+        this.courses.find((c) => c.courseId === courseId)?.purchaseState) ??
       PurchaseState.Started
     );
   }
