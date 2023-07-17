@@ -1,11 +1,15 @@
 import { Body, Controller } from '@nestjs/common';
 import { UserService } from './user.service';
-import { AccountChangeProfile } from '@school/shared';
+import {
+  AccountBuyCourse,
+  AccountChangeProfile,
+  AccountCheckPayment,
+  PurchaseState,
+  UserEntity,
+} from '@school/shared';
 import { RMQRoute, RMQService, RMQValidate } from 'nestjs-rmq';
-import { AccountBuyCourse } from '@school/shared';
-import { AccountCheckPayment } from '@school/shared';
-import { UserEntity } from '@school/shared';
 import { BuyCourseSaga } from './sagas/buy-course.saga';
+
 @Controller()
 export class UserCommands {
   constructor(

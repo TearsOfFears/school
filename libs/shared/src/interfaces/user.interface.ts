@@ -1,4 +1,4 @@
-import { ICourse } from './course.interface';
+import { ICourse, ICourseUser } from './course.interface';
 
 export enum UserRole {
   Student = 'Student',
@@ -16,7 +16,7 @@ export interface IUser {
 
   roles: UserRole[];
 
-  courses: ICourse[];
+  courses: ICourseUser[];
 
   isActivated: boolean;
 

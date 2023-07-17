@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DeepPartial, FindOneOptions } from 'typeorm';
 import { UserRepository } from './repositories/user.repository';
 import { UserEntity } from '@school/shared';
-import { UserEventEmitter } from './user.event-immiter';
+import { UserEventEmitter } from './user.event-emitter';
 
 @Injectable()
 export class UserService {

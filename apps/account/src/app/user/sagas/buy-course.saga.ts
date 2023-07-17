@@ -15,12 +15,14 @@ export class BuyCourseSaga {
     public user: UserEntity,
     public courseId: string,
     public rmqService: RMQService
-  ) {}
+  ) {
+    this.setState(courseId, user.getCourseState(courseId));
+  }
 
-  getState() {
+  public getState() {
     return this.state;
   }
-  setState(courseId: string, state: PurchaseState) {
+  public setState(courseId: string, state: PurchaseState) {
     switch (state) {
       case PurchaseState.Started:
         this.state = new BuyCourseSagaStateStarted();

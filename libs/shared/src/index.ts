@@ -9,7 +9,9 @@
 // entities
 export * from './entities/base/base.entity';
 export * from './entities/user.entity';
+export * from './entities/courseUser.entity';
 export * from './entities/course.entity';
+export * from './entities/payment.entity';
 // export * from './entities/friend-request.entity';
 // export * from './entities/conversation.entity';
 // export * from './entities/message.entity';
@@ -21,6 +23,7 @@ export * from './entities/course.entity';
 export * from './interfaces/user.interface';
 export * from './interfaces/course.interface';
 export * from './interfaces/events.interface';
+export * from './interfaces/payment.interface';
 // export * from './interfaces/users.repository.interface';
 // export * from './interfaces/friend-requests.repository.interface';
 // export * from './interfaces/conversations.repository.interface';
@@ -58,3 +61,9 @@ export * from './contracts/payment/payment.check';
 export * from './contracts/payment/payment.generate-link';
 
 export * from './contracts/course/course.generate-link';
+export * from './contracts/course/course.create';
+
+// dtos
+export * from './dtos/auth';
+export * from './dtos/user';
+export * from './dtos/course';

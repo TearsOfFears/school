@@ -1,5 +1,5 @@
 import { IsUUID } from 'class-validator';
-import { ICourse } from '../../interfaces/course.interface';
+import { ICourse, ICourseUser } from '../../interfaces/course.interface';
 
 export namespace CourseGetCourses {
   export const topic = 'course.get-courses.query';

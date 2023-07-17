@@ -6,11 +6,11 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from './base/base.entity';
-import { ICourse, PurchaseState } from '../interfaces/course.interface';
+import { ICourseUser, PurchaseState } from '../interfaces/course.interface';
 import { IUser, UserRole } from '../interfaces/user.interface';
 import { IDomainEvent } from '../interfaces/events.interface';
 import { AccountChangedCourse } from '../contracts/account/account.changed-course';
-import { CourseEntity } from './course.entity';
+import { CourseUserEntity } from './courseUser.entity';
 
 @Entity('user')
 export class UserEntity extends BaseEntity implements IUser {
@@ -40,8 +40,8 @@ export class UserEntity extends BaseEntity implements IUser {
   @Column({ nullable: true })
   restoreLink: string;
 
-  @OneToMany(() => CourseEntity, (course) => course.user)
-  courses: ICourse[];
+  @OneToMany(() => CourseUserEntity, (course) => course.user)
+  courses: ICourseUser[];
 
   @Column({
     type: 'enum',
@@ -55,6 +55,7 @@ export class UserEntity extends BaseEntity implements IUser {
   isActivated: boolean;
 
   public setCourseStatus(courseId: string, state: PurchaseState) {
+    console.log('this.courses', this.courses);
     const exist = this.courses.find((c) => c.courseId === courseId);
     if (!exist) {
       this.courses.push({
@@ -82,6 +83,7 @@ export class UserEntity extends BaseEntity implements IUser {
   }
 
   public getCourseState(courseId: string): PurchaseState {
+    console.log('this.courses', typeof this.courses);
     return (
       this.courses.find((c) => c.courseId === courseId)?.purchaseState ??
       PurchaseState.Started

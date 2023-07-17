@@ -16,7 +16,7 @@ import { IRefreshUser } from './interfaces/tokens.interface';
 import { RMQRoute, RMQValidate } from 'nestjs-rmq';
 
 @Controller()
-export class AuthController {
+export class AuthCommands {
   constructor(private readonly authService: AuthService) {}
   @RMQValidate()
   @RMQRoute(AccountRegister.topic)

@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
   Param,
   UseGuards,
   Patch,
@@ -9,27 +8,27 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import {
-  AccountBuyCourse,
-  BuyCourseDto,
+  AccountRegister,
   CourseCreate,
+  CourseCreateDto,
   IUser,
   JwtGuard,
 } from '@school/shared';
 import { DeepPartial } from 'typeorm';
 import { RMQService } from 'nestjs-rmq';
 
-@Controller('user')
-export class UserController {
+@Controller('course')
+export class CourseController {
   constructor(private readonly rmqService: RMQService) {}
 
   @UseGuards(JwtGuard)
-  @Post('buyCourse')
-  async get(@Body() dtoIn: BuyCourseDto) {
+  @Post('create')
+  async get(@Body() dtoIn: CourseCreateDto) {
     try {
       return await this.rmqService.send<
-        AccountBuyCourse.Request,
-        AccountBuyCourse.Response
-      >(AccountBuyCourse.topic, dtoIn);
+        CourseCreate.Request,
+        CourseCreate.Response
+      >(CourseCreate.topic, dtoIn);
     } catch (e) {
       if (e instanceof Error) {
         throw new UnauthorizedException(e.message);

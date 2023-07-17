@@ -10,10 +10,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
-import { AccountLogin, AccountRegister } from '@school/shared';
+import {
+  AccountLogin,
+  AccountRegister,
+  RegisterDto,
+  LoginDto,
+} from '@school/shared';
 import { RMQService } from 'nestjs-rmq';
-import { RegisterDto } from '../dtos/register.dto';
-import { LoginDto } from '../dtos/login.dto';
 
 @Controller('auth')
 export class AuthController {

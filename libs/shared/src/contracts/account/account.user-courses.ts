@@ -1,5 +1,5 @@
 import { IsUUID } from 'class-validator';
-import { ICourse } from '../../interfaces/course.interface';
+import { ICourse, ICourseUser } from '../../interfaces/course.interface';
 
 export namespace AccountUserCourses {
   export const topic = 'account.user-courses.query';
@@ -10,6 +10,6 @@ export namespace AccountUserCourses {
   }
 
   export class Response {
-    courses: ICourse[];
+    courses: ICourseUser[];
   }
 }

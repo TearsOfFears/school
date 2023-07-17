@@ -4,11 +4,11 @@ import { UserCommands } from './user.commands';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from './repositories/user.repository';
 import { UserQueries } from './user.queries';
-import { UserEntity, CourseEntity } from '@school/shared';
-import { UserEventEmitter } from './user.event-immiter';
+import { UserEntity, CourseUserEntity } from '@school/shared';
+import { UserEventEmitter } from './user.event-emitter';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, CourseEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity, CourseUserEntity])],
   controllers: [UserCommands, UserQueries],
   providers: [UserService, UserRepository, UserEventEmitter],
   exports: [UserService, UserRepository, UserEventEmitter],
