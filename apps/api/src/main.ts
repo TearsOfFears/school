@@ -14,8 +14,8 @@ async function bootstrap() {
     cors: { credentials: true, origin: true },
   });
   const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  app.use(cookieParser());
+       app.setGlobalPrefix(globalPrefix);
+     app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
